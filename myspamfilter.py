@@ -43,20 +43,23 @@ class spamfiler():
         A = pd.DataFrame(filtered_text, columns=['text'])
         # B-> Ham or Spam (0,1)
         B = self.df["Category"]
+        print(A)
 
         # split data into train and test, got from lecture
         from sklearn.model_selection import train_test_split
         Atrain, Atest, B_train, B_test = train_test_split(A, B)
 
         cv = CountVectorizer(max_features=3000)  # max_feature sets the number of features, if not specfied the number of features will be equal to the the vocab
-
+        #print(Atest)
         A_train = cv.fit_transform(Atrain['text']).toarray()
         A_test = cv.transform(Atest['text']).toarray()
+
 
 
         from sklearn.naive_bayes import MultinomialNB
         nb = MultinomialNB().fit(A_train, B_train)
         B_pred_nb = nb.predict(A_test)
+        print(B_pred_nb)
 
 
 
